@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <p>Indtast din hunds alder herunder og find ud af dens menneskealder</p>
+
+    <input type="text" id="vuffis_alder">
+
+    <button id="gammel_metode">Udregn efter gammeldags metode</button>
+    <button id="ny_metode">Udregn efter ny metode</button>
+
+    <script>
+        let alder = document.querySelector("#vuffis_alder").value;
+        let resultat;
+
+        document.querySelector("#gammel_metode").addEventListener("click", gammelButtonClicked);
+        document.querySelector("#ny_metode").addEventListener("click", nyButtonClicked);
+
+        function gammelButtonClicked() {
+            let menneskealderGammel = alder * 7;
+            resultat = `Din hund er ${menneskealderGammel} i menneskeår`;
+
+            console.log(resultat)
+
+        }
+
+        function nyButtonClicked() {
+            let menneskealderNy = Math.round(16 * Math.log(alder) + 31);
+            resultat = `Din hund er ${menneskealderNy} i menneskeår`;
+
+            console.log(resultat)
+        }
+    </script>
+</body></html>
