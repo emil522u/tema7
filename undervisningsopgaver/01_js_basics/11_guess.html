@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <p>Gæt mit tal mellem 0 og 20</p>
+
+    <input type="text" id="gæt">
+
+    <button>Gæt!</button>
+    <button id="nyt_spil">Nyt spil</button>
+
+    <script>
+        //laver tilfældigt tal mellem 0 og 20
+        let tal = Math.round(Math.random() * 20);
+
+        //opretter variablerne guess og antal
+        let guess;
+        let antal = 1;
+
+        //Lytter efter klik på begge knapper og kalder funktionerne guessTal og nytSpil
+        document.querySelector("button").addEventListener("click", guessTal);
+        document.querySelector("#nyt_spil").addEventListener("click", nytSpil);
+
+        function guessTal() {
+            //sætter guess til at være værdien af #gæt
+            guess = document.querySelector("#gæt").value;
+
+            //Hvis gættet er det samme som vores tilfældige tal:
+
+            if (guess == tal) {
+                console.log("Rigtigt! du prøvede " + antal + " gange");
+
+                document.querySelector("#nyt_spil").style.visibility = "visible";
+                document.querySelector("button").style.visibility = "hidden";
+            }
+            //Hvis gættet er mindre end det tilfældige tal:
+            else if (tal > guess) {
+                console.log("for lavt - prøv igen!");
+                antal++;
+            }
+            //Hvis gættet er større end det tilfældige tal:
+            else {
+                console.log("for højt - prøv igen!");
+                antal++;
+            }
+        }
+
+        function nytSpil() {
+            location.reload();
+        }
+    </script>
+</body></html>
