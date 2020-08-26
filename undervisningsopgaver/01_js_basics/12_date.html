@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <p>Indtast din egen og din dates alder herunder og find ud af om jeres alder er passende</p>
+
+    <p>Din alder</p>
+
+    <input type="text" id="min_alder">
+    <p>Dates alder</p>
+
+    <input type="text" id="dates_alder">
+
+    <button>Udregn!</button>
+
+    <script>
+        document.querySelector("button").addEventListener("click", buttonClicked);
+
+        function buttonClicked() {
+
+            let minAlder = document.querySelector("#min_alder").value;
+            let datesAlder = document.querySelector("#dates_alder").value;
+            let ideelDateAlder = minAlder / 2 + 7;
+            let minIdeelleAlder = datesAlder / 2 + 7;
+            let resultat;
+            if (minAlder < 15) {
+                resultat = "Du er ikke gammel nok til at date!";
+            } else if (datesAlder < 15) {
+                resultat = "Din date er ikke gammel nok, din gamle gris!";
+            } else if (datesAlder == ideelDateAlder) {
+                resultat = `I er et perfekt match!`;
+
+            } else if (minAlder == minIdeelleAlder) {
+                resultat = `I er et perfekt match!`
+            } else {
+                resultat = `Jeres alder passer slet ikke sammen`
+            }
+
+            console.log(resultat);
+        }
+
+    </script>
+</body>
+
+</html>
