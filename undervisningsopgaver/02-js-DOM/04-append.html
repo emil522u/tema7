@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        section {
+            display: flex;
+        }
+
+        article {
+            display: flex;
+            flex-direction: column;
+            border: solid black 1px;
+            margin: 5px;
+            padding: 5px;
+
+        }
+
+        img {
+            align-self: center;
+        }
+
+        footer {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Titel</h1>
+    </header>
+    <main>
+        <h2>Undertitel</h2>
+        <section>
+            <article>
+                <img src="https://placeimg.com/640/480/arch" alt="billede">
+                <h3>Article 1</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat magnam magni eius, ut quasi, adipisci officiis officia ipsam qui ab vel consequatur. Sed dicta quae dolor dignissimos modi natus architecto! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis rem distinctio tenetur excepturi, beatae sed libero voluptate aliquam magnam dolor totam ab eveniet sint neque repudiandae nam iure aliquid exercitationem.</p>
+            </article>
+            <article>
+                <img src="https://placeimg.com/640/480/arch" alt="billede">
+                <h3>Article 2</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat magnam magni eius, ut quasi, adipisci officiis officia ipsam qui ab vel consequatur. Sed dicta quae dolor dignissimos modi natus architecto! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis rem distinctio tenetur excepturi, beatae sed libero voluptate aliquam magnam dolor totam ab eveniet sint neque repudiandae nam iure aliquid exercitationem.</p>
+            </article>
+        </section>
+    </main>
+    <footer>This is the footer</footer>
+    <script>
+        //        const overskrift = document.querySelector("h1");
+        // overskrift.textContent;
+        // console.log(overskrift);
+        //
+        // const underoverskrift = document.querySelector("h2");
+        // overskrift.textContent;
+        // console.log(underoverskrift);
+        //
+        // const artikeloverskrift = document.querySelector("h3");
+        // overskrift.textContent;
+        // console.log(artikeloverskrift);
+        //
+        // const section = document.querySelector("section");
+        // console.log(section);
+        //
+        // const article = document.querySelector("article");
+        // console.log(article);
+        //
+        // const paragraph = document.querySelector("p");
+        // console.log(paragraph);
+        //
+        // const billede = document.querySelector("img");
+        // console.log(billede);
+        //
+        // const footer = document.querySelector("footer");
+        // console.log(footer);
+
+        //Vælger section
+        let mainSection = document.querySelector("section");
+
+        //Laver nyt article-element
+        let newArticle = document.createElement("article");
+
+        //Laver nyt img-element
+        let billede = document.createElement("img");
+
+        //Laver src-attribut til img-element
+        billede.src = "https://placeimg.com/640/480/arch";
+
+        //Laver ny h3
+        let overskrift = document.createElement("h3");
+
+        //Laver teksten til h3
+        let overskriftText = document.createTextNode("Article 3");
+
+        //Laver nyt p-element
+        let text = document.createElement("p");
+
+        //Laver teksten til p
+        let textIndhold = document.createTextNode("Her står der en ny fin lille tekst som hører til artikel 3");
+
+        //Indsætter tekst i h3
+        overskrift.appendChild(overskriftText);
+
+        //Indsætter tekst i p
+        text.appendChild(textIndhold);
+
+        //Indsætter billede i article
+        newArticle.appendChild(billede);
+
+        //Indsætter h3 i article
+        newArticle.appendChild(overskrift);
+
+        //Indsætter p i article
+        newArticle.appendChild(text);
+
+        //Indsætter article i section
+        mainSection.appendChild(newArticle);
+    </script>
+</body></html>
