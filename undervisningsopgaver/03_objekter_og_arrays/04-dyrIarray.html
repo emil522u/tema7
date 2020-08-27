@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Objekter</title>
+</head>
+
+<body>
+    <article>
+        <h3></h3>
+        <img src="" alt="">
+        <p id="type"></p>
+        <p id="levested"></p>
+    </article>
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            let dyr = [{
+                "navn": "Gris",
+                "type": "pattedyr",
+                "levested": "svinesti",
+                "billede": "http://mabe-kea.dk/E19/pics/pig.png"
+            }, {
+                "navn": "frø",
+                "type": "amfibie",
+                "levested": "vådområder",
+                "billede": "http://mabe-kea.dk/E19/pics/frog.png"
+            }, {
+                "navn": "ræv",
+                "type": "pattedyr",
+                "levested": "Skov og marker",
+                "billede": "http://mabe-kea.dk/E19/pics/fox.png"
+            }, {
+                "navn": "sild",
+                "type": "fisk",
+                "levested": "hav",
+                "billede": "http://mabe-kea.dk/E19/pics/sild.jpg"
+            }, {
+                "navn": "krokodille",
+                "type": "reptil",
+                "levested": "vådområder",
+                "billede": "jpghttp://mabe-kea.dk/E19/pics/kroko.jpg"
+            }]
+            console.log(dyr);
+
+            //            let overskrift = document.querySelector("h3");
+            //            let billede = document.querySelector("img");
+            //            let type = document.querySelector("#type");
+            //            let levested = document.querySelector("#levested");
+            //
+            //            let overskriftText = document.createTextNode(`${dyr.navn}`);
+            //            let typeText = document.createTextNode(`Type: ${dyr.type}`);
+            //            let levestedText = document.createTextNode(`Levested: ${dyr.levested}`);
+            //
+            //            overskrift.appendChild(overskriftText);
+            //            billede.src = "http://mabe-kea.dk/E19/pics/pig.png"
+            //            type.appendChild(typeText);
+            //            levested.appendChild(levestedText);
+
+
+
+            //
+            //            let article = document.querySelector("article");
+            //            let text = document.createTextNode(`Dyr: ${dyr.navn} Type: ${dyr.type} Levested: ${dyr.levested}`);
+            //            let billede = document.createElement("img");
+            //            billede.src = "http://mabe-kea.dk/E19/pics/pig.png";
+            //            article.appendChild(text);
+            //            article.appendChild(billede);
+
+        }
+    </script>
+</body></html>
