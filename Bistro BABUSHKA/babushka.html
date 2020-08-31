@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Objekter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 10px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        article {
+            background-color: beige;
+            padding: 10px;
+            border-radius: 25px;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: alata;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: alata;
+        }
+
+        p {
+            font-family: roboto slab;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px;
+            margin: 30px;
+            background-color: aliceblue;
+
+        }
+
+        .valgt {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Menu</h1>
+    <header>
+        <button class="filter valgt" data-kategori="alle">Alle
+        </button>
+        <button class="filter" data-kategori="forretter">Forretter
+        </button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter
+        </button>
+        <button class="filter" data-kategori="sideorders">Sideorders
+        </button>
+        <button class="filter" data-kategori="desserter">Desserter
+        </button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer
+        </button>
+    </header>
+
+    <section class="container">
+    </section>
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <p class="kort"></p>
+            <p class="pris"></p>
+        </article>
+    </template>
+
+    <script>
+        let retter;
+        let filter = "alle";
+        document.addEventListener("DOMContentLoaded", loadJSON)
+
+        async function loadJSON() {
+            const JSONData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+            retter = await JSONData.json();
+            addEventListenersToButtons();
+            visRetter();
+        }
+
+        function visRetter() {
+            const templatePointer = document.querySelector("template");
+            const sectionPointer = document.querySelector("section");
+            sectionPointer.innerHTML = "";
+            retter.feed.entry.forEach(ret => {
+                if (filter == "alle" || filter == ret.gsx$kategori.$t) {
+                    console.log(ret);
+                    const minKlon = templatePointer.cloneNode(true).content;
+                    minKlon.querySelector("h2").textContent = ret.gsx$navn.$t;
+                    minKlon.querySelector(".kort").textContent = ret.gsx$kort.$t;
+                    minKlon.querySelector(".pris").textContent = ret.gsx$pris.$t;
+                    minKlon.querySelector("img").src = "imgs/small/" + ret.gsx$billede.$t + "-sm.jpg";
+                    sectionPointer.appendChild(minKlon);
+
+                }
+            })
+        }
+
+        function addEventListenersToButtons() {
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.addEventListener("click", filterBTNs);
+            });
+        }
+
+        function filterBTNs() {
+            filter = this.dataset.kategori;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            visRetter();
+        }
+
+        //        document.addEventListener("DOMContentLoaded", hentData);
+        //        let container = document.querySelector("section");
+        //        let temp = document.querySelector("template");
+        //        let filter = "alle";
+        //        const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+        //
+        //        //
+        //        //        function start() {
+        //        //            //            let container = document.querySelector("section");
+        //        //            //            let temp = document.querySelector("template");
+        //        //            //            let filter = "alle";
+        //        //            addEventlistenersToButtons();
+        //
+        //
+        //        //            const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+        //
+        //        async function hentData() {
+        //            const respons = await fetch(url);
+        //            const json = await respons.json();
+        //            addEventlistenersToButtons();
+        //            vis(json);
+        //        }
+        //
+        //        function vis(json) {
+        //            container.innerHTML = "";
+        //            json.feed.entry.forEach(person => {
+        //
+        //                if (filter == "alle" || filter == person.gsx$køn.$t) {
+        //
+        //                    let klon = temp.cloneNode(true).content;
+        //                    klon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
+        //                    klon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
+        //                    klon.querySelector(".job").textContent = "Proffession: " +
+        //                        person.gsx$job.$t;
+        //                    klon.querySelector("img").src = person.gsx$billede.$t;
+        //                    container.appendChild(klon);
+        //                }
+        //            })
+        //
+        //        }
+        //
+        //        function addEventlistenersToButtons() {
+        //            document.querySelectorAll(".filter").forEach((btn) => {
+        //                btn.addEventListener("click", filterBTNs);
+        //            })
+        //        }
+        //
+        //        function filterBTNs() {
+        //            filter = this.dataset.køn;
+        //            vis(json);
+        //        }
+        //        hentData();
+        //        //        }
+    </script>
+</body></html>
