@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Objekter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 10px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        article {
+            background-color: beige;
+            padding: 10px;
+            border-radius: 25px;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: alata;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: alata;
+        }
+
+        p {
+            font-family: roboto slab;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Persongalleri</h1>
+    <section class="container">
+    </section>
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <p class="alder"></p>
+            <p class="job"></p>
+        </article>
+    </template>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        //        let personer;
+        //        let filter = "k";
+        //        document.addEventListener("DOMContentLoaded", loadJSON);
+        //
+        //        async function loadJSON() {
+        //            const JSONData = await fetch("https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json");
+        //            personer = await JSONData.json();
+        //            visPersoner();
+        //        }
+        //
+        //        function visPersoner() {
+        //            let container = document.querySelector("section");
+        //            let temp = document.querySelector("template");
+        //
+        //            json.feed.entry.forEach(person => {
+        //                if (filter == person.gsx$køn.st) {
+        //                    let klon = temp.cloneNode(true).content;
+        //                    klon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
+        //                    klon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
+        //                    klon.querySelector(".job").textContent = "Proffession: " +
+        //                        person.gsx$job.$t;
+        //                    klon.querySelector("img").src = person.gsx$billede.$t;
+        //                    container.appendChild(klon);
+        //                }
+        //            })
+        //        }
+        //
+        //        hentData();
+
+        function start() {
+            let container = document.querySelector("section");
+            let temp = document.querySelector("template");
+            let filter = "k";
+
+            const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+
+            async function hentData() {
+                const respons = await fetch(url);
+                const json = await respons.json();
+                vis(json);
+            }
+
+            function vis(json) {
+                json.feed.entry.forEach(person => {
+
+                    if (filter == person.gsx$køn.$t) {
+
+                        let klon = temp.cloneNode(true).content;
+                        klon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
+                        klon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
+                        klon.querySelector(".job").textContent = "Proffession: " +
+                            person.gsx$job.$t;
+                        klon.querySelector("img").src = person.gsx$billede.$t;
+                        container.appendChild(klon);
+                    }
+                })
+
+            }
+            hentData();
+        }
+    </script>
+</body></html>
