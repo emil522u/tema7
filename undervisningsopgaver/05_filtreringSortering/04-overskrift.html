@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Objekter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 10px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        article {
+            background-color: beige;
+            padding: 10px;
+            border-radius: 25px;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: alata;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: alata;
+        }
+
+        p {
+            font-family: roboto slab;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Persongalleri</h1>
+    <header>
+        <button class="filter valgt" data-køn="alle">Alle
+        </button>
+        <button class="filter" data-køn="m">Mænd
+        </button>
+        <button class="filter" data-køn="k">Kvinder
+        </button>
+        <button class="filter" data-køn="andet">Andet
+        </button>
+    </header>
+
+    <section class="container">
+    </section>
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <p class="alder"></p>
+            <p class="job"></p>
+        </article>
+    </template>
+
+    <script>
+        let personer;
+        let filter = "alle";
+        document.addEventListener("DOMContentLoaded", loadJSON)
+
+        async function loadJSON() {
+            const JSONData = await fetch("https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json");
+            personer = await JSONData.json();
+            addEventListenersToButtons();
+            visPersoner();
+        }
+
+        function visPersoner() {
+            const templatePointer = document.querySelector("template");
+            const sectionPointer = document.querySelector("section");
+            sectionPointer.innerHTML = "";
+            personer.feed.entry.forEach(person => {
+                if (filter == "alle" || filter == person.gsx$køn.$t) {
+                    console.log(person);
+                    const minKlon = templatePointer.cloneNode(true).content;
+                    minKlon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
+                    minKlon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
+                    minKlon.querySelector(".job").textContent = "Proffession: " +
+                        person.gsx$job.$t;
+                    minKlon.querySelector("img").src = person.gsx$billede.$t;
+                    sectionPointer.appendChild(minKlon);
+
+                }
+            })
+        }
+
+        function addEventListenersToButtons() {
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.addEventListener("click", filterBTNs);
+            });
+        }
+
+        function filterBTNs() {
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+            visPersoner();
+        }
+
+        //        document.addEventListener("DOMContentLoaded", hentData);
+        //        let container = document.querySelector("section");
+        //        let temp = document.querySelector("template");
+        //        let filter = "alle";
+        //        const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+        //
+        //        //
+        //        //        function start() {
+        //        //            //            let container = document.querySelector("section");
+        //        //            //            let temp = document.querySelector("template");
+        //        //            //            let filter = "alle";
+        //        //            addEventlistenersToButtons();
+        //
+        //
+        //        //            const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
+        //
+        //        async function hentData() {
+        //            const respons = await fetch(url);
+        //            const json = await respons.json();
+        //            addEventlistenersToButtons();
+        //            vis(json);
+        //        }
+        //
+        //        function vis(json) {
+        //            container.innerHTML = "";
+        //            json.feed.entry.forEach(person => {
+        //
+        //                if (filter == "alle" || filter == person.gsx$køn.$t) {
+        //
+        //                    let klon = temp.cloneNode(true).content;
+        //                    klon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
+        //                    klon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
+        //                    klon.querySelector(".job").textContent = "Proffession: " +
+        //                        person.gsx$job.$t;
+        //                    klon.querySelector("img").src = person.gsx$billede.$t;
+        //                    container.appendChild(klon);
+        //                }
+        //            })
+        //
+        //        }
+        //
+        //        function addEventlistenersToButtons() {
+        //            document.querySelectorAll(".filter").forEach((btn) => {
+        //                btn.addEventListener("click", filterBTNs);
+        //            })
+        //        }
+        //
+        //        function filterBTNs() {
+        //            filter = this.dataset.køn;
+        //            vis(json);
+        //        }
+        //        hentData();
+        //        //        }
+    </script>
+</body></html>
