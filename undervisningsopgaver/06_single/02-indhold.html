@@ -82,6 +82,10 @@
             border-radius: 5px;
             padding: 1em;
         }
+
+        #popup img {
+            max-height: 200px;
+        }
     </style>
 </head>
 
@@ -91,7 +95,14 @@
             <div id="luk_knap">X</div>
             <h2></h2>
             <img src="" alt="">
-            <p></p>
+            <p>Køn: <span class="køn"></span> </p>
+            <p>Alder: <span class="alder"></span></p>
+            <p>Religion: <span class="religion"></span></p>
+            <p>Hobby: <span class="hobby"></span></p>
+            <p>Kæledyr: <span class="kæledyr"></span></p>
+            <p>Job: <span class="job"></span></p>
+            <p>By: <span class="by"></span></p>
+            <p>Land: <span class="land"></span></p>
         </article>
     </section>
 
@@ -121,7 +132,8 @@
     <script>
         let personer;
         let filter = "alle";
-        document.addEventListener("DOMContentLoaded", loadJSON)
+        const popup = document.querySelector("#popup");
+        document.addEventListener("DOMContentLoaded", loadJSON);
 
         async function loadJSON() {
             const JSONData = await fetch("https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json");
@@ -143,16 +155,38 @@
                     minKlon.querySelector(".job").textContent = "Proffession: " +
                         person.gsx$job.$t;
                     minKlon.querySelector("img").src = person.gsx$billede.$t;
+                    minKlon.querySelector("article").addEventListener("click", () => visDetaljer(person));
                     sectionPointer.appendChild(minKlon);
 
                 }
             })
         }
 
+        function visDetaljer(person) {
+            popup.style.display = "block";
+            popup.querySelector("h2").textContent = person.gsx$navn.$t;
+            popup.querySelector("h2").textContent += " " + person.gsx$efternavn.$t;
+            popup.querySelector(".køn").textContent = person.gsx$køn.$t;
+            popup.querySelector(".alder").textContent = person.gsx$alder.$t;
+            popup.querySelector(".religion").textContent = person.gsx$religion.$t;
+            popup.querySelector(".hobby").textContent = person.gsx$hobby.$t;
+            popup.querySelector(".kæledyr").textContent = person.gsx$kæledyr.$t;
+            popup.querySelector(".job").textContent = person.gsx$job.$t;
+            popup.querySelector(".by").textContent = person.gsx$by.$t;
+            popup.querySelector(".land").textContent = person.gsx$land.$t;
+            popup.querySelector("img").src = person.gsx$billede.$t;
+        }
+
         function addEventListenersToButtons() {
             document.querySelectorAll(".filter").forEach((btn) => {
                 btn.addEventListener("click", filterBTNs);
             });
+        }
+
+        document.querySelector("#luk_knap").addEventListener("click", lukpopup);
+
+        function lukpopup() {
+            popup.style.display = "none";
         }
 
         function filterBTNs() {
