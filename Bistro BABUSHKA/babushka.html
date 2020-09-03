@@ -4,9 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Objekter</title>
+    <title>Bistro Babushka</title>
     <link href="https://fonts.googleapis.com/css2?family=Alata&family=Roboto+Slab&display=swap" rel="stylesheet">
     <style>
+        body {
+            background-color: #fbeaea;
+        }
+
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -16,7 +20,7 @@
         }
 
         article {
-            background-color: beige;
+            background-color: #d8c0c0;
             padding: 10px;
             border-radius: 25px;
         }
@@ -47,19 +51,100 @@
 
         button {
             padding: 10px;
-            margin: 30px;
+            margin: 0px 30px 30px;
             background-color: aliceblue;
+            font-family: roboto slab;
+            border: none;
 
         }
 
         .valgt {
-            background-color: aquamarine;
+            background-color: white;
         }
+
+        #popup {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .7);
+            display: none;
+        }
+
+        #popup article {
+            width: 80vw;
+            height: 80vh;
+            margin: 4rem auto;
+            background-color: #d8c0c0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #luk_knap {
+            position: fixed;
+            top: 2%;
+            right: 4%;
+            background-color: lightgray;
+            color: black;
+            border-radius: 5px;
+            padding: 1.5vw;
+            font-family: alata;
+        }
+
+        #popup img {
+            max-width: 400px;
+        }
+
+        #popup article p {
+            align-self: flex-start;
+        }
+
+        #splash {
+            background-image: url(imgs/babushka_splash.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100vw;
+            height: 40vw;
+            max-width: none;
+
+        }
+
+        #splash_display h1 {
+            font-size: 12vw;
+            text-align: center;
+            margin: 0px;
+            padding: 0px;
+            color: #832424;
+
+        }
+
+        @media (min-width:600px) {
+            #popup img {
+                max-width: 500px;
+            }
+        }
+
     </style>
 </head>
 
 <body>
-    <h1>Menu</h1>
+    <section id="popup">
+        <article>
+            <div id="luk_knap">X</div>
+            <h2></h2>
+            <img src="" alt="">
+            <p><span class="lang"></span> </p>
+            <p>Oprindelse: <span class="oprindelse"></span></p>
+        </article>
+    </section>
+    <div id="splash">
+        <div id="splash_display">
+            <h1>Bistro Babushka</h1>
+        </div>
+    </div>
+    <h1 class="menu">Menu</h1>
     <header>
         <button class="filter valgt" data-kategori="alle">Alle
         </button>
@@ -100,7 +185,7 @@
 
         function visRetter() {
             const templatePointer = document.querySelector("template");
-            const sectionPointer = document.querySelector("section");
+            const sectionPointer = document.querySelector(".container");
             sectionPointer.innerHTML = "";
             retter.feed.entry.forEach(ret => {
                 if (filter == "alle" || filter == ret.gsx$kategori.$t) {
@@ -108,12 +193,21 @@
                     const minKlon = templatePointer.cloneNode(true).content;
                     minKlon.querySelector("h2").textContent = ret.gsx$navn.$t;
                     minKlon.querySelector(".kort").textContent = ret.gsx$kort.$t;
-                    minKlon.querySelector(".pris").textContent = ret.gsx$pris.$t;
+                    minKlon.querySelector(".pris").textContent = ret.gsx$pris.$t + " kr.";
                     minKlon.querySelector("img").src = "imgs/small/" + ret.gsx$billede.$t + "-sm.jpg";
+                    minKlon.querySelector("article").addEventListener("click", () => visDetaljer(ret));
                     sectionPointer.appendChild(minKlon);
 
                 }
             })
+        }
+
+        function visDetaljer(ret) {
+            popup.style.display = "block";
+            popup.querySelector("h2").textContent = ret.gsx$navn.$t;
+            popup.querySelector(".lang").textContent = ret.gsx$lang.$t;
+            popup.querySelector(".oprindelse").textContent = ret.gsx$oprindelse.$t;
+            popup.querySelector("img").src = "imgs/large/" + ret.gsx$billede.$t + ".jpg";
         }
 
         function addEventListenersToButtons() {
@@ -122,9 +216,15 @@
             });
         }
 
+        document.querySelector("#luk_knap").addEventListener("click", lukpopup);
+
+        function lukpopup() {
+            popup.style.display = "none";
+        }
+
         function filterBTNs() {
             filter = this.dataset.kategori;
-            document.querySelector("h1").textContent = this.textContent;
+            document.querySelector(".menu").textContent = this.textContent;
             document.querySelectorAll(".filter").forEach((btn) => {
                 btn.classList.remove("valgt");
             })
@@ -132,58 +232,7 @@
             visRetter();
         }
 
-        //        document.addEventListener("DOMContentLoaded", hentData);
-        //        let container = document.querySelector("section");
-        //        let temp = document.querySelector("template");
-        //        let filter = "alle";
-        //        const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
-        //
-        //        //
-        //        //        function start() {
-        //        //            //            let container = document.querySelector("section");
-        //        //            //            let temp = document.querySelector("template");
-        //        //            //            let filter = "alle";
-        //        //            addEventlistenersToButtons();
-        //
-        //
-        //        //            const url = "https://spreadsheets.google.com/feeds/list/1mtHhpoEkYqVqr1TSnKQ1_sQZWI7FRVjcw3H1oatDOVQ/od6/public/values?alt=json";
-        //
-        //        async function hentData() {
-        //            const respons = await fetch(url);
-        //            const json = await respons.json();
-        //            addEventlistenersToButtons();
-        //            vis(json);
-        //        }
-        //
-        //        function vis(json) {
-        //            container.innerHTML = "";
-        //            json.feed.entry.forEach(person => {
-        //
-        //                if (filter == "alle" || filter == person.gsx$køn.$t) {
-        //
-        //                    let klon = temp.cloneNode(true).content;
-        //                    klon.querySelector("h2").textContent = person.gsx$navn.$t + " " + person.gsx$efternavn.$t;
-        //                    klon.querySelector(".alder").textContent = person.gsx$alder.$t + " år";
-        //                    klon.querySelector(".job").textContent = "Proffession: " +
-        //                        person.gsx$job.$t;
-        //                    klon.querySelector("img").src = person.gsx$billede.$t;
-        //                    container.appendChild(klon);
-        //                }
-        //            })
-        //
-        //        }
-        //
-        //        function addEventlistenersToButtons() {
-        //            document.querySelectorAll(".filter").forEach((btn) => {
-        //                btn.addEventListener("click", filterBTNs);
-        //            })
-        //        }
-        //
-        //        function filterBTNs() {
-        //            filter = this.dataset.køn;
-        //            vis(json);
-        //        }
-        //        hentData();
-        //        //        }
     </script>
-</body></html>
+</body>
+
+</html>
